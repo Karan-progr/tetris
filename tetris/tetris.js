@@ -1,5 +1,5 @@
 import { sleep } from "../utils/sleep.js";
-import { clearTetri, renderTetri, world } from "../world/world.js";
+import { clearTetri, renderTetri, validPosition, world } from "../world/world.js";
 
 
 export class box {
@@ -31,7 +31,43 @@ export class tetris {
             this.boxes = [];
             this.boxes = [... updatedBoxes];
             renderTetri(this, display);
-            await sleep(50);
+            await sleep(300);
+        }
+    }
+
+    updateBoxes(boxes){
+        this.boxes = [];
+        this.boxes = boxes;
+    }
+
+    moveLeft (display){
+        const newBoxes = [];
+        for (const box of this.boxes){
+            newBoxes.push({...box, x : box.x - 1});
+        }
+        if (!validPosition(newBoxes))
+            return;
+        clearTetri(this, display);
+        this.updateBoxes(newBoxes);
+        renderTetri(this, display);
+    }
+
+    moveRight(display){
+        const newBoxes = [];
+        for (const box of this.boxes){
+            newBoxes.push({...box, x : box.x + 1});
+        }
+        if (!validPosition(newBoxes))
+            return;
+        clearTetri(this, display);
+        this.updateBoxes(newBoxes);
+        renderTetri(this, display);
+    }
+
+    setbasis(){
+        for (const box of this.boxes){
+            if (world[box.y+1][box.x] != 2)
+                box.isbase = true;
         }
     }
 }

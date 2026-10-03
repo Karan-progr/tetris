@@ -1,3 +1,7 @@
+import { I_tet } from "../tetris/I_tet.js";
+import { T_tet } from "../tetris/T_tet.js";
+import { random } from "../utils/random.js";
+
 export const world = [];
 export const height = 15;
 export const width = 10;
@@ -54,4 +58,25 @@ export function renderTetri(tetri, display){
     }
 
     renderWorld(tetri, display);
+}
+
+export function validPosition(boxes){
+    for (const box of boxes){
+        if (world[box.y][box.x] == 1 || box.x < 0 || box.x > 9){
+            return false;
+        }
+    }
+    return true;
+}
+
+export function spawnRandomTetri(display){
+    const colors = ["yellow", "purple", "orange", "red"];
+    const color = colors[random(0, colors.length-1)];
+    const rno = random(0, 1);
+    switch(rno){
+        case 0:
+            return new I_tet(color, display);            
+        case 1:
+            return new T_tet(color, display)
+    }
 }
