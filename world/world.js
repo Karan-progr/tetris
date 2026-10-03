@@ -1,4 +1,5 @@
 import { I_tet } from "../tetris/I_tet.js";
+import { L_tet } from "../tetris/L_tet.js";
 import { T_tet } from "../tetris/T_tet.js";
 import { random } from "../utils/random.js";
 
@@ -72,11 +73,13 @@ export function validPosition(boxes){
 export function spawnRandomTetri(display){
     const colors = ["yellow", "purple", "orange", "red"];
     const color = colors[random(0, colors.length-1)];
-    const rno = random(0, 1);
+    const rno = random(0, 2);
     switch(rno){
         case 0:
             return new I_tet(color, display);            
         case 1:
-            return new T_tet(color, display)
+            return new T_tet(color, display);
+        case 2:
+            return new L_tet(color, display);
     }
 }

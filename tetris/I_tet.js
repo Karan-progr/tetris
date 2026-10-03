@@ -22,22 +22,7 @@ export class I_tet extends tetris {
 
     }
 
-    rotate90(display) {
-        const source = this.boxes[2];
-        const dists = getDirections(source, this.boxes);
-        for (let i = 0; i < dists.length; i++){
-            dists[i] = [-dists[i][1], dists[i][0]];
-        }
-        const newBoxes = []
-        for (let i = 0; i < 4; i++){
-            newBoxes.push(new box(source.x + dists[i][0], source.y + dists[i][1]));
-        }
-        if(!validPosition(newBoxes))
-            return;
-        
-        clearTetri(this, display);
-        this.updateBoxes(newBoxes);
-        this.setbasis();
-        renderTetri(this, display);
+    getPivot(){
+        return this.boxes[2];
     }
 }

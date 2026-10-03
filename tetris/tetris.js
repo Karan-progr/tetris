@@ -1,12 +1,11 @@
 import { sleep } from "../utils/sleep.js";
 import { clearTetri, renderTetri, validPosition, world } from "../world/world.js";
-
+import { getDirections } from "../utils/directions.js";
 
 export class box {
     x = 0;
     y = 0;
     isbase = false;
-    moving = true;
     constructor(x, y){
         this.x = x;
         this.y = y;
@@ -16,6 +15,8 @@ export class box {
 export class tetris {
     color = "white";
     boxes = [];
+
+    pivot = null;
 
     async stepDown(display){
         while(true){
@@ -69,5 +70,25 @@ export class tetris {
             if (world[box.y+1][box.x] != 2)
                 box.isbase = true;
         }
+    }
+
+    rotate90(display) {
+        const source = this.getPivot();
+        const dists = getDirections(source, this.boxes);
+        for (let i = 0; i < dists.length; i++){
+            dists[i] = [-dists[i][1], dists[i][0]];
+        }
+        const newBoxes = []
+        for (let i = 0; i < 4; i++){
+            newBoxes.push(new box(source.x + dists[i][0], source.y + dists[i][1]));
+        }
+
+        if(!validPosition(newBoxes))
+            return;
+        
+        clearTetri(this, display);
+        this.updateBoxes(newBoxes);
+        this.setbasis();
+        renderTetri(this, display);
     }
 }
