@@ -1,3 +1,4 @@
+import { sleep } from "../utils/sleep.js";
 import { clearTetri, renderTetri, world } from "../world/world.js";
 
 
@@ -16,16 +17,21 @@ export class tetris {
     color = "white";
     boxes = [];
 
-    stepDown(display){
-        clearTetri(this, display);
-        let updatedBoxes = [];
-        for(const box of this.boxes){
-            if (world[box.y + 1][box.x] == 1 || box.y + 1 == 15)
-                return;
-            updatedBoxes.push({...box, y: box.y+1});
+    async stepDown(display){
+        while(true){
+            clearTetri(this, display);
+            let updatedBoxes = [];
+            for(const box of this.boxes){
+                if (box.y + 1 == 19 || world[box.y + 1][box.x] == 1){
+                    renderTetri(this, display);
+                    return;
+                }
+                updatedBoxes.push({...box, y: box.y+1});
+            }
+            this.boxes = [];
+            this.boxes = [... updatedBoxes];
+            renderTetri(this, display);
+            await sleep(50);
         }
-        this.boxes = [];
-        this.boxes = [... updatedBoxes];
-        renderTetri(this, display);
     }
 }

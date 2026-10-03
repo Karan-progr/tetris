@@ -1,3 +1,4 @@
+import { random } from "../utils/random.js";
 import { world } from "../world/world.js";
 import { tetris } from "./tetris.js";
 import { box } from "./tetris.js";
@@ -5,7 +6,7 @@ import { box } from "./tetris.js";
 export class I_tet extends tetris {
     constructor(color){
         super();
-        let x = Math.floor(Math.random() * 10); //0 - 9
+        let x = random(0, 9);
         this.boxes.push(new box (x, 4));
         this.boxes.push(new box (x, 3));
         this.boxes.push(new box (x, 2));
@@ -17,6 +18,9 @@ export class I_tet extends tetris {
                 box.isbase = true;            
         }
 
+    }
 
+    rotate90() {
+        dists = getDirections(source, goals);
     }
 }

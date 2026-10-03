@@ -20,11 +20,24 @@ export function renderWorld(tetri, display){
         for (let j = 0; j < width; j++){
             const cell = display[i].getElementsByClassName(`${j}`)[0];
             if (cell){
-                let color = tetri?tetri.color:"";
-                cell.style.backgroundColor = (world[i+attic][j] == 0)?"#0076fd":color;
+                if (world[i+attic][j] == 2){
+                    let color = tetri?tetri.color:"";
+                    cell.style.backgroundColor = color;
+                    continue;
+                }
+                else if (world[i+attic][j] == 0){
+                    cell.style.backgroundColor = "";
+                }
             }
         }
     }
+}
+
+export function updateWorld(tetri, display){
+    for (const box of tetri.boxes){
+        world[box.y][box.x] = 1;
+    }
+    renderWorld(tetri, display);
 }
 
 export function clearTetri(tetri, display){
