@@ -25,8 +25,8 @@ window.addEventListener("contextmenu", (e)=>{
     curTet.moveRight(display);
 });
 
-let i = 10;
-while(i){
+let i = 20;
+while(1){
     curTet = spawnRandomTetri(display);
     await curTet.stepDown(display);
     updateWorld(curTet, display);

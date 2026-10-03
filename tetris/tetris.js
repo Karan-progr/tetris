@@ -79,7 +79,7 @@ export class tetris {
             dists[i] = [-dists[i][1], dists[i][0]];
         }
         const newBoxes = []
-        for (let i = 0; i < 4; i++){
+        for (let i = 0; i < this.boxes.length; i++){
             newBoxes.push(new box(source.x + dists[i][0], source.y + dists[i][1]));
         }
 
