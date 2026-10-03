@@ -1,1 +1,1 @@
-Just a weekend project to warm up with webdev
+Just a weekend project to warm up in webdev
