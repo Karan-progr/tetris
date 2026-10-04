@@ -1,6 +1,7 @@
 import { random } from "./utils/random.js";
 import { initWorld, renderWorld, spawnRandomTetri, updateWorld, world } from "./world/world.js";
 import { T_tet } from "./tetris/T_tet.js";
+import { moveSound, overSound } from "./sounds/sounds.js";
 
 const disp = document.getElementById("board");
 export const display = disp.children;
@@ -63,12 +64,12 @@ let gameover = false;
 while(!gameover){
     curTet = spawnRandomTetri(display);
     await curTet.stepDown(display);
-    gameover = updateWorld(curTet, display);
+    gameover = await updateWorld(curTet, display);
     score++;
     updateScore();
     console.log (world);
 }
 
 gameOverDOM.classList.toggle("pop");
-
+overSound.play();
 // window.location.reload();

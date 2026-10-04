@@ -4,6 +4,8 @@ import { L_tet } from "../tetris/L_tet.js";
 import { T_tet } from "../tetris/T_tet.js";
 import { random } from "../utils/random.js";
 import { O_tet } from "../tetris/O_tet.js";
+import { crushSound } from "../sounds/sounds.js";
+import { sleep } from "../utils/sleep.js";
 
 export const world = [];
 export const height = 15;
@@ -42,7 +44,7 @@ export function renderWorld(tetri, display){
     }
 }
 
-export function updateWorld(tetri, display){
+export async function updateWorld(tetri, display){
     for (const box of tetri.boxes){
         if (box.y < 5)
             return true; //game over
@@ -53,6 +55,7 @@ export function updateWorld(tetri, display){
     for (let i = height+attic-1; i > attic; i--){
         if(!world[i].includes(0)){
             console.log ("has no 0s");
+            crushSound.play();
             for (let j = i; j > attic; j--){
                 world[j] = structuredClone(world[j-1]);
                 renderWorld(null, display);
@@ -60,13 +63,13 @@ export function updateWorld(tetri, display){
                 for (let k = 0; k < 10 && j > attic; k++){
                     display[j - attic].getElementsByClassName(`${k}`)[0].style.backgroundColor
                     = display[j-1-attic].getElementsByClassName(`${k}`)[0].style.backgroundColor;
+                    await sleep(10);
                 }
             }
             world[attic] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             i++;
         }
     }
-
     renderWorld(null, display);
     return false;
 }

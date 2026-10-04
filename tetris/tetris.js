@@ -2,6 +2,7 @@ import { sleep } from "../utils/sleep.js";
 import { clearTetri, attic, height, renderTetri, validPosition, world } from "../world/world.js";
 import { getDirections } from "../utils/directions.js";
 import { score } from "../main.js";
+import { moveSound } from "../sounds/sounds.js";
 
 export class box {
     x = 0;
@@ -43,6 +44,7 @@ export class tetris {
     }
 
     moveLeft (display){
+        moveSound.play();
         const newBoxes = [];
         for (const box of this.boxes){
             newBoxes.push({...box, x : box.x - 1});
@@ -55,6 +57,7 @@ export class tetris {
     }
 
     moveRight(display){
+        moveSound.play();
         const newBoxes = [];
         for (const box of this.boxes){
             newBoxes.push({...box, x : box.x + 1});
@@ -76,6 +79,7 @@ export class tetris {
     rotate90(display) {
         if (this.constructor.name == "O_tet")
             return;
+        moveSound.play();
         const source = this.getPivot();
         const dists = getDirections(source, this.boxes);
         for (let i = 0; i < dists.length; i++){
