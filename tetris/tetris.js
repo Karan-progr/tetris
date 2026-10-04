@@ -32,7 +32,7 @@ export class tetris {
             this.boxes = [];
             this.boxes = [... updatedBoxes];
             renderTetri(this, display);
-            await sleep(500);
+            await sleep(50);
         }
     }
 
