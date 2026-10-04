@@ -37,6 +37,27 @@ retryDOM.addEventListener("click", (e) => {
     window.location.reload();
 });
 
+//mobile doms
+
+const leftbtn = document.getElementById("left");
+const rightbtn = document.getElementById("right");
+const rotatebtn = document.getElementById("rotate");
+
+leftbtn.addEventListener("click", (e)=>{
+    curTet.moveLeft(display);
+    e.stopPropagation();
+});
+
+rightbtn.addEventListener("click", (e)=>{
+    curTet.moveRight(display);
+    e.stopPropagation();
+});
+
+rotatebtn.addEventListener("click", (e)=>{
+    curTet.rotate90(display);
+    e.stopPropagation();
+});
+
 let gameover = false;
 
 while(!gameover){

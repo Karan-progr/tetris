@@ -1,8 +1,6 @@
 body {
     background-color: black;
     color: white;
-    display: flex;
-    justify-content: center;
     margin :0;
 }
 
@@ -22,9 +20,9 @@ main {
 
 .box{
     height: 40px;
-    width: 40px;
+    aspect-ratio: 1;
     background-color: #0076fd;
-    border: 1px solid rgba(0, 0, 0, 0.747);
+    border: 1px solid rgba(114, 147, 255, 0.747);
     border-radius: 5px;
     /* transition: all 0.1s ease-in-out; */
 }
@@ -95,4 +93,46 @@ main {
 
 .pop.gameOver {
     height: 100vh;
+}
+
+.controls{
+    display: none;
+}
+
+@media (width < 600px) {
+    .board{
+        margin: 0;
+    }
+    .box{
+        width: 10vw;
+        border: 0px;
+    }
+    .scoreBoard{
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        opacity: 0.3;
+    }
+    body{
+        position: relative;
+    }
+    .controls{
+        display: flex;
+        margin: 5px;
+        justify-content: space-around;
+        bottom: calc(100vh-80px);
+        position: absolute;
+        width: 95vw;
+        align-items: center;
+        margin-left: 10px;
+    }
+    .controls button{
+        height: 6vh;
+        width: 20vw;
+        border-radius: 5px;
+        border: none;
+        font-size: 4vh;
+        background-color: white;
+        color: red;
+    }
 }
