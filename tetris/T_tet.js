@@ -8,10 +8,10 @@ export class T_tet extends tetris {
     constructor(color, display){
         super();
         let x = random(1, 8);
-        this.boxes.push(new box (x, 4));
         this.boxes.push(new box (x, 3));
-        this.boxes.push(new box (x+1, 3));
-        this.boxes.push(new box (x-1, 3));
+        this.boxes.push(new box (x, 2));
+        this.boxes.push(new box (x+1, 2));
+        this.boxes.push(new box (x-1, 2));
         this.color = color;
 
         for (const box of this.boxes){

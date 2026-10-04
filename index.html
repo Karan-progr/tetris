@@ -7,6 +7,10 @@
     <title>Tetris</title>
 </head>
 <body>
+    <div class="scoreBoard">
+        <p>Your Score</p>
+        <h1 id="score">0</h1>
+    </div>
     <div class="board" id="board">
         <div class="row" id="r0">
             <div class="box 0"></div>
@@ -187,6 +191,12 @@
             <div class="box 7"></div>
             <div class="box 8"></div>
             <div class="box 9"></div>
+        </div>
+    </div>
+    <div class="gameOver hidden" id="gameOver">
+        <div class="innerBox">
+            <h1>Game Over</h1>
+            <button id="retry">Retry</button>
         </div>
     </div>
 </body>

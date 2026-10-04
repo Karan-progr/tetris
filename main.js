@@ -4,6 +4,14 @@ import { T_tet } from "./tetris/T_tet.js";
 
 const disp = document.getElementById("board");
 export const display = disp.children;
+export const scoreDOM = document.getElementById("score");
+const gameOverDOM = document.getElementById("gameOver");
+const retryDOM = document.getElementById("retry");
+
+export let score = 0;
+export function updateScore(){
+    scoreDOM.textContent = `${score}`;
+}
 
 initWorld();
 const colors = ["yellow", "purple", "orange", "red"];
@@ -25,13 +33,21 @@ window.addEventListener("contextmenu", (e)=>{
     curTet.moveRight(display);
 });
 
-let i = 20;
-while(1){
+retryDOM.addEventListener("click", (e) => {
+    window.location.reload();
+});
+
+let gameover = false;
+
+while(!gameover){
     curTet = spawnRandomTetri(display);
     await curTet.stepDown(display);
-    updateWorld(curTet, display);
+    gameover = updateWorld(curTet, display);
+    score++;
+    updateScore();
     console.log (world);
-    i--;
 }
+
+gameOverDOM.classList.toggle("hidden");
 
 // window.location.reload();

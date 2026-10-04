@@ -1,5 +1,5 @@
 import { sleep } from "../utils/sleep.js";
-import { clearTetri, renderTetri, validPosition, world } from "../world/world.js";
+import { clearTetri, attic, height, renderTetri, validPosition, world } from "../world/world.js";
 import { getDirections } from "../utils/directions.js";
 
 export class box {
@@ -23,7 +23,7 @@ export class tetris {
             clearTetri(this, display);
             let updatedBoxes = [];
             for(const box of this.boxes){
-                if (box.y + 1 == 19 || world[box.y + 1][box.x] == 1){
+                if (box.y + 1 == height + attic || world[box.y + 1][box.x] == 1){
                     renderTetri(this, display);
                     return;
                 }
