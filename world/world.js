@@ -44,7 +44,7 @@ export function renderWorld(tetri, display){
 
 export function updateWorld(tetri, display){
     for (const box of tetri.boxes){
-        if (box.y < 4)
+        if (box.y < 5)
             return true; //game over
         world[box.y][box.x] = 1;
     }
