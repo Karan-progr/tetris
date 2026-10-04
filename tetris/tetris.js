@@ -1,6 +1,7 @@
 import { sleep } from "../utils/sleep.js";
 import { clearTetri, attic, height, renderTetri, validPosition, world } from "../world/world.js";
 import { getDirections } from "../utils/directions.js";
+import { score } from "../main.js";
 
 export class box {
     x = 0;
@@ -32,7 +33,7 @@ export class tetris {
             this.boxes = [];
             this.boxes = [... updatedBoxes];
             renderTetri(this, display);
-            await sleep(500);
+            await sleep(500 - score*5);
         }
     }
 
