@@ -6,6 +6,12 @@ body {
     margin :0;
 }
 
+main {
+    display: flex;
+    justify-content: center;
+    transform: translateX(-50px);
+}
+
 .row{
     display: flex;
 }
@@ -43,12 +49,15 @@ body {
 }
 
 .gameOver {
-    position: absolute;
-    height: 100vh;
+    position: fixed;
+    height: 0vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    transition: all 1s ease;
+    transform: translateX(65px);
 }
 
 .innerBox {
@@ -57,29 +66,33 @@ body {
     align-items: center;
     justify-content: center;
     background-color: rgb(255, 119, 119);
-    padding: 10px;
     border-radius: 20px;
-    transition: all 0.5s ease;
     height: 100px;
     width: 200px;
+    overflow: hidden;
+    padding: 10px;
 }
 
 .innerBox button {
-    background-color: rgb(148, 255, 171);
+    background-color: rgb(73, 92, 255);
     border: none;
-    box-shadow: 2px 2px 10px 0px;
+    box-shadow: 2px 2px 10px 0px black;
     height: 50px;
     width: 80px;
     border-radius: 40px;
     font-size: larger;
     font-weight: bold;
     cursor: pointer;
+    color: wheat;
     transition: inherit;
 }
 
-.hidden {
+.innerBox button:hover {
+    transform: scale(1.1);
+}
+
+.pop.gameOver{
     /* display: none; */
-    height: 0;
-    width: 0;
-    overflow: hidden;
+    height: 100vh;
+    width: 250px;
 }

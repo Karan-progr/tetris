@@ -48,6 +48,6 @@ while(!gameover){
     console.log (world);
 }
 
-gameOverDOM.classList.toggle("hidden");
+gameOverDOM.classList.toggle("pop");
 
 // window.location.reload();

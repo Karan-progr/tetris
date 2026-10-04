@@ -32,7 +32,7 @@ export class tetris {
             this.boxes = [];
             this.boxes = [... updatedBoxes];
             renderTetri(this, display);
-            await sleep(300);
+            await sleep(500);
         }
     }
 
@@ -73,6 +73,8 @@ export class tetris {
     }
 
     rotate90(display) {
+        if (this.constructor.name == "O_tet")
+            return;
         const source = this.getPivot();
         const dists = getDirections(source, this.boxes);
         for (let i = 0; i < dists.length; i++){
