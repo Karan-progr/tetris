@@ -14,7 +14,7 @@ export async function getPossiblePlacements (display){
         let cpyCpyCurTet = cpyCurTet.clone();
         for (let i = 0; i < 4; i++){
             await cpyCpyCurTet.stepDown(0, display);
-            possiblePlacements.push({world: world, moves: r, rots: i});
+            possiblePlacements.push({world: structuredClone(world), moves: r, rots: i});
             clearTetri(cpyCpyCurTet, display);
             cpyCurTet.rotate90(display);
             cpyCpyCurTet = cpyCurTet.clone();
@@ -30,7 +30,7 @@ export async function getPossiblePlacements (display){
         let cpyCpyCurTet = cpyCurTet.clone();
         for (let i = 0; i < 4; i++){
             await cpyCpyCurTet.stepDown(0, display);
-            possiblePlacements.push({world: world, moves: r, rots: i});
+            possiblePlacements.push({world: structuredClone(world), moves: r, rots: i});
             clearTetri(cpyCpyCurTet, display);
             cpyCurTet.rotate90(display);
             cpyCpyCurTet = cpyCurTet.clone();
@@ -46,5 +46,15 @@ export async function getPossiblePlacements (display){
 
     console.log (possiblePlacements);
 
-    return possiblePlacements;
+    const res = await fetch("http://localhost:5000/state", {
+        method:"POST",
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify(possiblePlacements)
+    });
+
+    const data = await res.json();
+
+    console.log (data);
 }
