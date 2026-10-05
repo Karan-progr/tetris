@@ -20,7 +20,7 @@ export class tetris {
 
     pivot = null;
 
-    async stepDown(display){
+    async stepDown(time, display){
         while(true){
             clearTetri(this, display);
             let updatedBoxes = [];
@@ -34,7 +34,7 @@ export class tetris {
             this.boxes = [];
             this.boxes = [... updatedBoxes];
             renderTetri(this, display);
-            await sleep(500 - score*5);
+            await sleep(time - score*5);
         }
     }
 
@@ -50,10 +50,11 @@ export class tetris {
             newBoxes.push({...box, x : box.x - 1});
         }
         if (!validPosition(newBoxes))
-            return;
+            return false;
         clearTetri(this, display);
         this.updateBoxes(newBoxes);
         renderTetri(this, display);
+        return true;
     }
 
     moveRight(display){
@@ -63,10 +64,11 @@ export class tetris {
             newBoxes.push({...box, x : box.x + 1});
         }
         if (!validPosition(newBoxes))
-            return;
+            return false;
         clearTetri(this, display);
         this.updateBoxes(newBoxes);
         renderTetri(this, display);
+        return true;
     }
 
     setbasis(){
@@ -97,5 +99,11 @@ export class tetris {
         this.updateBoxes(newBoxes);
         this.setbasis();
         renderTetri(this, display);
+    }
+
+    clone(){
+        const cpy = Object.create(Object.getPrototypeOf(this));
+        Object.assign(cpy, structuredClone(this));
+        return cpy;
     }
 }

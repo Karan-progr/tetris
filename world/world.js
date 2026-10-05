@@ -92,7 +92,7 @@ export function renderTetri(tetri, display){
 
 export function validPosition(boxes){
     for (const box of boxes){
-        if (world[box.y][box.x] == 1 || box.x < 0 || box.x > 9){
+        if (box.x < 0 || box.x > 9 || box.y < 0 || world[box.y][box.x] == 1){
             return false;
         }
     }

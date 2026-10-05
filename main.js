@@ -2,6 +2,7 @@ import { random } from "./utils/random.js";
 import { initWorld, renderWorld, spawnRandomTetri, updateWorld, world } from "./world/world.js";
 import { T_tet } from "./tetris/T_tet.js";
 import { moveSound, overSound } from "./sounds/sounds.js";
+import { getPossiblePlacements } from "./apis/getPossiblePlacements.js";
 
 const disp = document.getElementById("board");
 export const display = disp.children;
@@ -20,7 +21,7 @@ const colors = ["yellow", "purple", "orange", "red"];
 renderWorld(null, display);
 
 
-let curTet = null;
+export let curTet = null;
 window.addEventListener("wheel", () => {
     curTet.rotate90(display);
 });
@@ -63,7 +64,8 @@ let gameover = false;
 
 while(!gameover){
     curTet = spawnRandomTetri(display);
-    await curTet.stepDown(display);
+    await getPossiblePlacements(display);
+    await curTet.stepDown(0, display);
     gameover = await updateWorld(curTet, display);
     score++;
     updateScore();

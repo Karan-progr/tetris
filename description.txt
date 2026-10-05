@@ -1,0 +1,14 @@
+Nostalgia hit me hard this weekend. 🎮
+
+I remembered playing Tetris on an old CRT TV back in 3rd grade and thought, "Why not recreate it?"
+
+From the outside, Tetris looks straightforward. I figured it would be a quick 3–4 hour weekend project. Under the hood it's entirely different story.
+
+I ended up rewriting the core logic twice from scratch due to poor early design choices. It was a solid reminder that modularity isn't optional once complexity scales. Properly decoupling grid management, piece rotation, collision detection, and game loops was quite challenging.
+
+A fun weekend build with some great architecture takeaways!
+
+Give it a try here 🎮: https://karan-progr.github.io/tetris/
+(Use mouse if u are playing in PC)
+
+🔗 Repo link: https://github.com/Karan-progr/tetris
