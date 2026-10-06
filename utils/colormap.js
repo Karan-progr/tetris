@@ -1,1 +1,0 @@
-const colors = ["yellow", "purple", "orange", "red"];

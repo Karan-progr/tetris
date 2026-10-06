@@ -27,6 +27,7 @@ def process(states):
         #calculate no of blocks about to vanish
         vanishBocks = np.sum(np.all(world != 0, axis=1))
 
+        #calculate new holes
         score = variance - vanishBocks
         if (score < maxiscore):
             maxiscore = score
