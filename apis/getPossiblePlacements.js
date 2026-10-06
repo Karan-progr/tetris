@@ -12,6 +12,16 @@ export async function getPossiblePlacements (display){
     //sweep from current pos to world's right boundary
     let cpyCurTet = curTet.clone();
     let r = 1;
+    
+    let cpyCpyCurTet = cpyCurTet.clone();
+    for (let i = 0; i < 4; i++){
+        await cpyCpyCurTet.stepDown(0, display);
+        possiblePlacements.push({world: structuredClone(world), moves: 0, rots: i});
+        clearTetri(cpyCpyCurTet, display);
+        cpyCurTet.rotate90(display);
+        cpyCpyCurTet = cpyCurTet.clone();
+    }
+
     while (cpyCurTet.moveRight(display)){
         let cpyCpyCurTet = cpyCurTet.clone();
         for (let i = 0; i < 4; i++){
@@ -67,7 +77,11 @@ export async function applyAction(display) {
     let moves = data["moves"];
     console.log (curTet);
     console.log (data);
-    
+    // if (curTet.constructor.name === "O_tet"){
+    //     moves = moves > 0? moves + 1:moves;
+    //     moves = moves < 0? moves - 1:moves;
+    //     console.log ("Altering moves");
+    // }
     while (moves){
         curTet.stepOnce(display);
         await sleep(100);

@@ -24,11 +24,23 @@ def process(states):
         #calculate height variance
         variance = np.var(heights)
 
+        maxheight = max(heights)
+
         #calculate no of blocks about to vanish
         vanishBocks = np.sum(np.all(world != 0, axis=1))
 
         #calculate new holes
-        score = variance - vanishBocks
+        # first do a vertical scan
+        holes = 0
+        for col in world.T:
+            for i in range(5, 19):
+                if (col[i] > col[i+1]):
+                    holes+=4
+                    break
+        holes /= (max(heights) * 10)
+
+
+        score = variance - 150*vanishBocks + 20*holes + 10*maxheight
         if (score < maxiscore):
             maxiscore = score
             bestState = state
