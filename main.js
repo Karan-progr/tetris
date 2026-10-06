@@ -2,7 +2,8 @@ import { random } from "./utils/random.js";
 import { initWorld, renderWorld, spawnRandomTetri, updateWorld, world } from "./world/world.js";
 import { T_tet } from "./tetris/T_tet.js";
 import { moveSound, overSound } from "./sounds/sounds.js";
-import { getPossiblePlacements } from "./apis/getPossiblePlacements.js";
+import { applyAction, getPossiblePlacements } from "./apis/getPossiblePlacements.js";
+import { sleep } from "./utils/sleep.js";
 
 const disp = document.getElementById("board");
 export const display = disp.children;
@@ -15,8 +16,16 @@ export function updateScore(){
     scoreDOM.textContent = `${score}`;
 }
 
+export const colors = ["#0076fd", "yellow", "purple", "orange", "red"];
+export const colorMap = {
+    0:"#0076fd",
+    1:"yellow",
+    2:"purple",
+    3:"orange",
+    4:"red"
+}
+
 initWorld();
-const colors = ["yellow", "purple", "orange", "red"];
 
 renderWorld(null, display);
 
@@ -64,14 +73,17 @@ let gameover = false;
 
 while(!gameover){
     curTet = spawnRandomTetri(display);
+    console.log(curTet.boxes[0].x);
     await getPossiblePlacements(display);
-    await curTet.stepDown(0, display);
+    await applyAction(display);
+    await curTet.stepDown(100, display);
     gameover = await updateWorld(curTet, display);
     score++;
     updateScore();
-    console.log (world);
+    // console.log (world);
 }
 
 gameOverDOM.classList.toggle("pop");
 overSound.play();
-// window.location.reload();
+await sleep(1000);
+window.location.reload();

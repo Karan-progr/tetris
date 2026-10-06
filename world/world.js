@@ -6,6 +6,8 @@ import { random } from "../utils/random.js";
 import { O_tet } from "../tetris/O_tet.js";
 import { crushSound } from "../sounds/sounds.js";
 import { sleep } from "../utils/sleep.js";
+import { colors } from "../main.js";
+import { colorMap } from "../main.js";
 
 export const world = [];
 export const height = 15;
@@ -26,20 +28,11 @@ export function initWorld(){
 }
 
 
-export function renderWorld(tetri, display){
-    for (let i = 0; i < height; i++){
-        for (let j = 0; j < width; j++){
-            const cell = display[i].getElementsByClassName(`${j}`)[0];
-            if (cell){
-                if (world[i+attic][j] == 2){
-                    let color = tetri?tetri.color:"";
-                    cell.style.backgroundColor = color;
-                    continue;
-                }
-                else if (world[i+attic][j] == 0){
-                    cell.style.backgroundColor = "";
-                }
-            }
+export function renderWorld(display){
+    for (let i = 0; i < 15; i++){
+        for (let j = 0; j < 10; j++){
+            if (display)
+                display[i].getElementsByClassName(`${j}`)[0].style.backgroundColor = colorMap[world[i+attic][j]];
         }
     }
 }
@@ -48,29 +41,24 @@ export async function updateWorld(tetri, display){
     for (const box of tetri.boxes){
         if (box.y < 5)
             return true; //game over
-        world[box.y][box.x] = 1;
+        world[box.y][box.x] = tetri.clno;
     }
-    renderWorld(tetri, display);
+    renderWorld(display);
 
     for (let i = height+attic-1; i > attic; i--){
         if(!world[i].includes(0)){
-            console.log ("has no 0s");
             crushSound.play();
             for (let j = i; j > attic; j--){
                 world[j] = structuredClone(world[j-1]);
-                renderWorld(null, display);
-                console.log (display);
-                for (let k = 0; k < 10 && j > attic; k++){
-                    display[j - attic].getElementsByClassName(`${k}`)[0].style.backgroundColor
-                    = display[j-1-attic].getElementsByClassName(`${k}`)[0].style.backgroundColor;
-                    await sleep(10);
-                }
+                renderWorld(display);
+                await sleep(100);
             }
             world[attic] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            renderWorld(display);
             i++;
         }
     }
-    renderWorld(null, display);
+    renderWorld(display);
     return false;
 }
 
@@ -79,20 +67,20 @@ export function clearTetri(tetri, display){
         world[box.y][box.x] = 0;
     }
 
-    renderWorld(tetri, display);
+    renderWorld(display);
 }
 
 export function renderTetri(tetri, display){
     for (const box of tetri.boxes){
-        world[box.y][box.x] = 2;
+        world[box.y][box.x] = tetri.clno;
     }
 
-    renderWorld(tetri, display);
+    renderWorld(display);
 }
 
 export function validPosition(boxes){
     for (const box of boxes){
-        if (box.x < 0 || box.x > 9 || box.y < 0 || world[box.y][box.x] == 1){
+        if (box.x < 0 || box.x > 9 || box.y < 0 || world[box.y][box.x] != 0){
             return false;
         }
     }
@@ -100,19 +88,19 @@ export function validPosition(boxes){
 }
 
 export function spawnRandomTetri(display){
-    const colors = ["yellow", "purple", "orange", "red"];
-    const color = colors[random(0, colors.length-1)];
+    const clrRno = random(1, colors.length-1);
+    const color = colors[clrRno];
     const rno = random(0, 4);
     switch(rno){
         case 0:
-            return new I_tet(color, display);            
+            return new I_tet(color, clrRno, display);
         case 1:
-            return new T_tet(color, display);
+            return new T_tet(color, clrRno, display);
         case 2:
-            return new L_tet(color, display);
+            return new L_tet(color, clrRno, display);
         case 3:
-            return new Z_tet(color, display);
+            return new Z_tet(color, clrRno, display);
         case 4:
-            return new O_tet(color, display);
+            return new O_tet(color, clrRno, display);
     }
 }

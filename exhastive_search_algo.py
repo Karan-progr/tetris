@@ -7,18 +7,28 @@ CORS(app)
 
 def process(states):
     bestState = states[0]
-    maxiscore = float('-inf')
+    maxiscore = float('inf')
     for state in states:
         world = np.array (state['world'])
+
+        #caclulate heights matrix
+        heights = np.array([0]*10)
+        for idx, col in enumerate(world.T):
+            for i in range(5, 20):
+                if(col[i] != 0):
+                    heights[idx] = 20 - i
+                    break
+
+        print(heights)
         
         #calculate height variance
-        variance = np.mean(np.var(world, axis=0))
+        variance = np.var(heights)
 
         #calculate no of blocks about to vanish
-        vanishBocks = np.sum(np.any(world != 0, axis=1))
+        vanishBocks = np.sum(np.all(world != 0, axis=1))
 
-        score = -(variance*4/225) + 0*vanishBocks
-        if (score > maxiscore):
+        score = variance - vanishBocks
+        if (score < maxiscore):
             maxiscore = score
             bestState = state
 
@@ -29,8 +39,7 @@ def process(states):
 def getWorld():
     if request.method == 'POST' or request.method == 'GET':
         data = request.json
-        print(data)
         return jsonify({"status": "ok", "data":process(data)})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")

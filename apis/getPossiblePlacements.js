@@ -1,5 +1,7 @@
 import { curTet } from "../main.js";
+import { sleep } from "../utils/sleep.js";
 import { attic, clearTetri, height, renderTetri, validPosition, world } from "../world/world.js";
+let data;
 
 export async function getPossiblePlacements (display){
     //for every x try all possible four orientations and push it straight down till it's base hit something then store the world's state;
@@ -54,7 +56,34 @@ export async function getPossiblePlacements (display){
         body:JSON.stringify(possiblePlacements)
     });
 
-    const data = await res.json();
+    data = await res.json();
 
+    data = data.data;
+
+}
+
+
+export async function applyAction(display) {
+    let moves = data["moves"];
+    console.log (curTet);
     console.log (data);
+    
+    while (moves){
+        curTet.stepOnce(display);
+        await sleep(100);
+        if (moves > 0){
+            curTet.moveRight(display);
+            moves--;
+        }
+        else {
+            curTet.moveLeft(display);
+            moves++;
+        }
+    }
+
+    for (let i = 0; i < data["rots"]; i++){
+        curTet.stepOnce(display);
+        curTet.rotate90(display);
+        await sleep(100);
+    }
 }

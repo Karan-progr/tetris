@@ -17,15 +17,31 @@ export class box {
 export class tetris {
     color = "white";
     boxes = [];
+    clno = 1;
 
     pivot = null;
+
+    stepOnce (display){
+        clearTetri(this, display);
+        let updatedBoxes = [];
+        for(const box of this.boxes){
+            if (box.y + 1 == height + attic || world[box.y + 1][box.x] != 0){
+                renderTetri(this, display);
+                return;
+            }
+            updatedBoxes.push({...box, y: box.y+1});
+        }
+        this.boxes = [];
+        this.boxes = [... updatedBoxes];
+        renderTetri(this, display);
+    }
 
     async stepDown(time, display){
         while(true){
             clearTetri(this, display);
             let updatedBoxes = [];
             for(const box of this.boxes){
-                if (box.y + 1 == height + attic || world[box.y + 1][box.x] == 1){
+                if (box.y + 1 == height + attic || world[box.y + 1][box.x] != 0){
                     renderTetri(this, display);
                     return;
                 }
@@ -34,7 +50,8 @@ export class tetris {
             this.boxes = [];
             this.boxes = [... updatedBoxes];
             renderTetri(this, display);
-            await sleep(time - score*5);
+            if (time)
+                await sleep(time);
         }
     }
 
@@ -49,9 +66,11 @@ export class tetris {
         for (const box of this.boxes){
             newBoxes.push({...box, x : box.x - 1});
         }
-        if (!validPosition(newBoxes))
-            return false;
         clearTetri(this, display);
+        if (!validPosition(newBoxes)){
+            renderTetri(this, display);
+            return false;
+        }
         this.updateBoxes(newBoxes);
         renderTetri(this, display);
         return true;
@@ -63,9 +82,11 @@ export class tetris {
         for (const box of this.boxes){
             newBoxes.push({...box, x : box.x + 1});
         }
-        if (!validPosition(newBoxes))
-            return false;
         clearTetri(this, display);
+        if (!validPosition(newBoxes)){
+            renderTetri(this, display);
+            return false;
+        }
         this.updateBoxes(newBoxes);
         renderTetri(this, display);
         return true;
@@ -92,10 +113,12 @@ export class tetris {
             newBoxes.push(new box(source.x + dists[i][0], source.y + dists[i][1]));
         }
 
-        if(!validPosition(newBoxes))
-            return;
-        
         clearTetri(this, display);
+        if(!validPosition(newBoxes)){
+            renderTetri(this, display);
+            return;
+        }
+        
         this.updateBoxes(newBoxes);
         this.setbasis();
         renderTetri(this, display);
