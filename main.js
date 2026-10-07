@@ -76,7 +76,7 @@ while(!gameover){
     console.log(curTet.boxes[0].x);
     await getPossiblePlacements(display);
     await applyAction(display);
-    await curTet.stepDown(10, display);
+    await curTet.stepDown(100, display);
     gameover = await updateWorld(curTet, display);
     score++;
     updateScore();

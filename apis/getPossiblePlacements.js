@@ -52,13 +52,16 @@ export async function getPossiblePlacements (display){
     clearTetri(curTet, display);
 
 
+    // trying to repeat the above steps again but this time though let do the rotation first then do the 
+
+
     for (let i = 0; i < height + attic; i++){
         world[i] = structuredClone(worldClone[i]);
     }
 
     console.log (possiblePlacements);
 
-    const res = await fetch("http://localhost:5000/state", {
+    const res = await fetch("http://10.54.5.170:5000/state", {
         method:"POST",
         headers:{
             "Content-Type": "application/json"
