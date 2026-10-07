@@ -7,7 +7,7 @@ CORS(app)
 
 def process(states):
     bestState = states[0]
-    maxiscore = float('inf')
+    minScore = float('inf')
     for state in states:
         world = np.array (state['world'])
 
@@ -26,7 +26,7 @@ def process(states):
         maxheight = max(heights)
 
         #calculate no of blocks about to vanish
-        vanishBlocks = np.sum(np.all(world != 0, axis=1))
+        linesCleared = np.sum(np.all(world != 0, axis=1))
 
         #calculate new holes
         # first do a vertical scan
@@ -42,9 +42,9 @@ def process(states):
                     holes += 1
 
 
-        score = 0.6*variance - 300*vanishBlocks + 120*holes + 140*maxheight
-        if (score < maxiscore):
-            maxiscore = score
+        score = 0.6*variance - 300*linesCleared + 120*holes + 140*maxheight
+        if (score < minScore):
+            minScore = score
             bestState = state
 
 
